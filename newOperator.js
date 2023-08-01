@@ -18,7 +18,7 @@ function newOperator(){
 
 
     // 3.生成的新对象会绑定到函数调用的`this`。
-    // 获取到ctor函数返回结果
+    // 获取到Constructor函数返回结果
     var result = Constructor.apply(newObj, arguments);
 
     // 小结4 中这些类型中合并起来只有Object和Function两种类型 typeof null 也是'object'所以要不等于null，排除null
