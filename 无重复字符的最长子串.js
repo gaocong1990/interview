@@ -21,25 +21,36 @@
 
  */
 
+/**
+ * 解题思路： 字符串长度小于等于1的时候直接返回字符串长度
+ * 定义左右两个指针，起始指向第一和第二个字符，右指针开始向右移动
+ * 每次截取字符串从left到right-1位置的字符串，判断right位置的字符是否在字符串中
+ * 如果不在字符串中，那么right指针向右移动一位，max去Math.max(max,right-left)
+ * 若在则 left指针向右移动一位
+ */
 var lengthOfLongestSubstring = function (str) {
-  if (str.length <= 1) {
-    return str.length;
-  }
-  let left = 0;
-  let right = 1;
-  let max = 0;
-  let temp;
-  while (right < str.length) {
-    temp = str.slice(left, right);
-    if (temp.indexOf(str.charAt(right)) > -1) {
-      left++;
-      continue;
-    } else {
+  const sLength = str.length;
+  if (sLength <= 1) return sLength;
+  let left = 0; // 左指针初始位置
+  let right = 1; // 右指针初始位置
+  let maxLength = 0; // 最大长度
+  while (right < sLength) {
+    // 遍历整个字符串
+    const tempStr = str.slice(left, right);
+    if (tempStr.indexOf(str[right]) === -1) {
+      /**right位置的字符串不在子字符中，right右移，同时计算最大值 */
       right++;
-    }
-    if (right - left > max) {
-      max = right - left;
+      maxLength = Math.max(maxLength, right - left);
+    } else {
+      /**right位置的字符串在子字符中，left右移*/
+      left++;
     }
   }
-  return max;
+  console.log(maxLength);
+  return maxLength;
 };
+
+// test
+lengthOfLongestSubstring('abcabcbb'); // 3
+lengthOfLongestSubstring('bbbbb'); // 1
+lengthOfLongestSubstring('pwwkew'); // 3
