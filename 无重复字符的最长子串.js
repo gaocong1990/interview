@@ -25,8 +25,8 @@
  * 解题思路： 字符串长度小于等于1的时候直接返回字符串长度
  * 定义左右两个指针，起始指向第一和第二个字符，右指针开始向右移动
  * 每次截取字符串从left到right-1位置的字符串，判断right位置的字符是否在字符串中
- * 如果不在字符串中，那么right指针向右移动一位，max去Math.max(max,right-left)
- * 若在则 left指针向右移动一位
+ * 如果不在字符串中，那么right指针向右移动一位，更新max为Math.max(max,right-left)
+ * 若在则 left指针向右移动一位，right<length时结束循环
  */
 var lengthOfLongestSubstring = function (str) {
   const sLength = str.length;
