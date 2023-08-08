@@ -12,7 +12,7 @@ function test(s, k) {
   // 去重排序
   const uniSortedString = [
     ...new Set(
-      [].slice.call(s).sort((a, b) => a.charCodeAt() - b.charCodeAt())
+      [...s].sort((a, b) => a.charCodeAt() - b.charCodeAt())
     ),
   ];
   let resCode;
@@ -25,7 +25,7 @@ function test(s, k) {
       }
     });
   }
-  console.log(resCode);
+  // console.log(resCode);
   return s.indexOf(resCode);
 }
 
