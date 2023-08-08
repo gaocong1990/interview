@@ -1,4 +1,4 @@
-##Math常用的方法
+## Math常用的方法
 - `Math.abs()` 返回绝对值
 - `Math.ceil(),Math.floor() `向上取整和向下取整
 - `Math.max(),Math.min()` 最大值和最小值
@@ -10,7 +10,7 @@
 - `Math.exp()` e的指数
 
 
-##Array常用的方法
+## Array常用的方法
 - 数组的创建
 ```javascript
 // 字面量
@@ -21,4 +21,4 @@ var arr = Array(1,2,3); // [1,2,3]
 var arr = Array(3); //[,,]
 ```
 
-##String常用的方法
+## String常用的方法
