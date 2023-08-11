@@ -1,3 +1,9 @@
+## 原型和原型链
+原型：每个函数在创建的时候，都会生成一个属性prototype，这个属性指向一个对象，这个对象就是此函数的原型对象。**最主要的作用就是用来存放实例对象的公有属性和公有方法**，该原型对象中有个属性为constructor，指向该函数。
+![image](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f2b435c6ed064418969d80abcddb44e6~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp?)
+原型链：每个通过`构造函数`创建出来的`实例对象`，其本身有个属性`__proto__`，这个属性会指向该`实例对象`的`构造函数的原型对象`，当访问一个对象的某个属性时，会先在这个对象本身属性上查找，如果没有找到，则会通过它的__proto__隐式属性，找到它的`构造函数的原型对象`，如果还没有找到就会再在其`构造函数的原型对象`的__proto__中查找，这样一层一层向上查找就会形成一个链式结构，称为**原型链**
+
+
 ## for in 和 for of 的区别
 `for...in `主要用于遍历对象的可枚举属性（包括原型链上的属性）。`for...in` 遍历的顺序可能与属性的创建顺序不一致，因此不适用于需要按特定顺序遍历的场景。它的语法为：
 ``` javascript
@@ -17,3 +23,56 @@ for (const value of iterable) {
 ```
 
 ## Set 和 Map
+
+
+## JS为什么要进行变量提升
+- 提高性能：解析和预编译过程中的声明提升可以提高性能，让函数可以在执行时预先为变量分配栈空间
+- 容错性更好：声明提升还可以提高JS代码的容错性，使一些不规范的代码也可以正常执行
+
+## typeof 和 instanceOf
+`typeof` 和 `instanceof` 都是用于检查变量类型的操作符，但它们的用途和返回结果有所不同。
+
+**typeof**
+
+`typeof` 是一元操作符，用于获取变量的基本数据类型。它的语法为：
+
+```javascript
+typeof operand
+```
+
+`typeof` 返回一个字符串，表示 `operand` 的数据类型。可能的返回值包括：
+
+- "undefined"：表示变量未定义或值为 `undefined`。
+- "boolean"：表示变量是布尔值（`true` 或 `false`）。
+- "number"：表示变量是数字（整数或浮点数）。
+- "string"：表示变量是字符串。
+- "bigint"：表示变量是大整数（BigInt 类型）。
+- "symbol"：表示变量是符号（Symbol 类型）。
+- "function"：表示变量是函数。
+- "object"：表示变量是对象或 `null`。
+
+需要注意的是，`typeof` 无法区分对象、数组、正则表达式等复杂数据类型，它们的类型都会被认为是 "object"。
+
+**instanceof**
+
+`instanceof` 是一个二元操作符，用于检查对象是否是某个构造函数的实例。它的语法为：
+
+```javascript
+object instanceof constructor
+```
+
+`instanceof` 返回一个布尔值，表示 `object` 是否是 `constructor` 的实例。如果 `object` 是 `constructor` 的实例或继承自 `constructor.prototype`，则返回 `true`，否则返回 `false`。
+
+`instanceof` 的主要用途是区分对象的具体类型，例如：
+
+```javascript
+const arr = [1, 2, 3];
+const obj = { a: 1, b: 2 };
+const str = "hello";
+
+console.log(arr instanceof Array); // 输出 true
+console.log(obj instanceof Object); // 输出 true
+console.log(str instanceof String); // 输出 false（str 是原始字符串，而非 String 对象）
+```
+
+`typeof` 主要用于获取基本数据类型，而 `instanceof` 主要用于检查对象类型和继承关系
