@@ -26,7 +26,7 @@ var maxArea = function (height) {
 
 /**
  * 滑动窗口，双指针，从两边向中间移动，计算当前窗口可以容纳水
- * 然后哪边小，就移动哪边往中间走，知道两个指针相遇
+ * 然后哪边小，就移动哪边往中间走，直到两个指针相遇
  */
 
 var maxArea2 = function (height) {
