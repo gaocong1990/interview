@@ -7,7 +7,7 @@
  * @param {number[]} height
  * @return {number}
  * 思路：从两端向中间滑动，来计算能接多少雨水，维护左边最高leftMax和右边最高rightMax，
- * 计算i处能接到的最大雨水，依赖的是左右最高中的短边，Math.min(leftMax, rightMax) - height[i]
+ * 计算i处能接到的最大雨水，依赖的leftMax和rightMax的短边，Math.min(leftMax, rightMax) - height[i]
  * 每次由短边向中间移动，若移动长边的话会导致当前的计算有可能不成立，因为移动长边后可能会导致下一个边比当前的短边还短，当前的计算结果就无效了
  */
 var trap = function (height) {

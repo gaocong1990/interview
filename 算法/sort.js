@@ -34,10 +34,9 @@ function selectSort(arr) {
         for (var j = i + 1; j < arr.length; j++) {
             if (arr[i] > arr[j]) {
                 minIndex = j;
-                minValue = arr[j]
             }
         }
-        var tmp = minValue;
+        var tmp = arr[minIndex];
         arr[minIndex] = arr[i];
         arr[i] = tmp;
     }
