@@ -79,10 +79,79 @@ Diff算法是一种对比算法，主要是对比旧的虚拟DOM和新的虚拟D
 ![image](https://static.vue-js.com/44114780-3aca-11eb-85f6-6fac77c0c9b3.png)
 
 ## v-if和v-for为什么不建议一起使用？
-1. v-for优先级高于v-if，带来性能方面的浪费（每次渲染都会先循环再进行条件判断）
+1. v-for优先级高于v-if，带来性能方面的浪费（每次渲染都会先循环再进行条件判断）// vue3已修改v-if优先级高
 2. 在外层嵌套template进行v-if判断，然后在内部进行v-for循环
 3. 如果条件出现在循环内部，可通过计算属性computed提前过滤掉那些不需要显示的项
 
 
 ## 为什么data属性是一个函数而不是一个对象？
 防止多个组件实例对象之间共用一个data，产生数据污染。采用函数的形式，initData时会将其作为工厂函数都会返回全新data对象
+
+## Vue中组件和插件有什么区别
+- 组件 (Component) 是用来构成你的 App 的业务模块，它的目标是 App.vue 
+// Vue.component('my-component-name', { /* ... */ })
+- 插件 (Plugin) 是用来增强你的技术栈的功能模块，它的目标是 Vue 本身
+// Vue.use(插件名字,{ /* ... */} )
+vue插件的实现应该暴露一个 install 方法。这个方法的第一个参数是 Vue 构造器，第二个参数是一个可选的选项对象
+
+## Vue组件之间的通信方式都有哪些？
+1. 通过 props 传递
+2. 通过 $emit 触发自定义事件
+3. 使用 ref
+4. EventBus
+5. $parent 或$root
+6. attrs 与 listeners
+7. Provide 与 Inject
+8. 全局Store（vuex/pinia）
+
+
+## 双向绑定实现原理
+1. new Vue()首先执行初始化，对data执行响应化处理，这个过程发生Observe中
+2. 同时对模板执行编译，找到其中动态绑定的数据，从data中获取并初始化视图，这个过程发生在Compile中
+3. 同时定义⼀个更新函数和Watcher，将来对应数据变化时Watcher会调用更新函数
+4. 由于data的某个key在⼀个视图中可能出现多次，所以每个key都需要⼀个管家Dep来管理多个Watcher
+5. 将来data中数据⼀旦发生变化，会首先找到对应的Dep，通知所有Watcher执行更新函数
+![image](https://static.vue-js.com/e5369850-3ac9-11eb-85f6-6fac77c0c9b3.png)
+
+## Keep-alive 是什么
+`keep-alive`是`vue`中的内置组件，能在**组件切换过程中**将**状态**保留在内存中，防止重复渲染DOM
+`keep-alive` 包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们
+设置了 keep-alive 缓存的组件，会多出两个生命周期钩子`activated`与`deactivated`
+
+## Vue修饰符
+- 表单修饰符：v-model.lazy/trim/number
+- 事件修饰符: @click.stop/prevent/self/once/capture/native  @scroll.passive
+- 鼠标按键修饰符 @click.left/right/middle
+- 键值修饰符 @keyup.keyCode // 只有按键为keyCode的时候才触发
+- v-bind修饰符 :myMessage.sync 双向绑定
+
+## 自定义指令
+全局注册主要是通过`Vue.directive`方法进行注册，局部注册通过在组件`options`选项中设置`directive`属性
+``` javascript
+// 注册一个全局自定义指令 `v-focus`
+Vue.directive('focus', {
+  bind(el, binding){},// 只调用一次，指令第一次绑定到元素时调用
+  inserted(el, binding){},// 当被绑定的元素插入到 DOM 中时……
+  update(){}, // 所在组件的 VNode 更新时调用
+  componentUpdated(){}, // 指令所在组件的 VNode 及其子 VNode 全部更新后调用
+  unbind(){} //只调用一次，指令与元素解绑时调用
+})
+// el：指令所绑定的元素，可以用来直接操作 DOM
+// binding: binding.value 指令的绑定值 例如：v-my-directive="1 + 1" 中，绑定值为 2
+```
+
+## Vue3的新特性
+1. 速度更快
+  - 优化了虚拟dom的实现：新增patch flag、静态提升、事件缓存,update性能提高1.3\~2倍、SSR速度提高了2~3倍
+  - 使用Proxy替代defineProperty
+2. 体积减少
+ - 移除一些不常用的 API
+ - 更加注重 Tree-shaking 的优化，Composition API灵活按需引入
+3. 更易维护
+  - compositon Api，更好的业务逻辑抽离，方便维护
+  - 更好的Typescript支持
+  - 编译器重写
+4. 更接近原生
+  - 可以自定义渲染 API，createRenderer
+5. 更易使用
+  - 响应式 Api 暴露出来 reactive/effect/ref
