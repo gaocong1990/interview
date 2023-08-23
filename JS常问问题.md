@@ -93,3 +93,94 @@ console.log(str instanceof String); // 输出 false（str 是原始字符串，�
 - 引用类型的对象存储于堆中
 
 基础类型赋值赋的是值，而引用类型赋值的是地址。
+
+## Promise相关
+解决异步回调的地狱问题，链式操作减低了编码难度，代码可读性明显增强
+`promise`对象仅有三种状态：
+- pending（进行中）
+- fulfilled（已成功）
+- rejected（已失败）
+
+特点
+- 对象的状态不受外界影响，只有异步操作的结果，可以决定当前是哪一种状态
+- 一旦状态改变（从`pending`变为`fulfilled`和从`pending`变为`rejected`），就不会再变，任何时候都可以得到这个结果
+
+实例方法: then/catch/finally
+
+Promise构造函数存在以下方法：
+- all()  所有都fulfilled才resolve，有一个rejected就reject
+- race() 有一个fulfilled就resolve，有一个rejected就reject
+- allSettled() 所有这些参数实例都返回结果，不管是fulfilled还是rejected，包装实例才会结束
+- any() 有一个fulfilled就resolve，所有都rejected才reject
+- resolve() 返回一个resolved状态的 Promise 对象
+- reject() 返回一个rejected状态的 Promise 对象
+
+简单实现一个promise
+```javascript
+// 三个状态：PENDING、FULFILLED、REJECTED
+const PENDING = 'PENDING';
+const FULFILLED = 'FULFILLED';
+const REJECTED = 'REJECTED';
+
+class Promise {
+  constructor(executor) {
+    // 默认状态为 PENDING
+    this.status = PENDING;
+    // 存放成功状态的值，默认为 undefined
+    this.value = undefined;
+    // 存放失败状态的值，默认为 undefined
+    this.reason = undefined;
+    // 存放成功的回调函数队列
+    this.onFulfilledCallbacks = [];
+    // 存放失败的回调函数队列
+    this.onRejectedCallbacks = [];
+
+    // 调用此方法就是成功
+    let resolve = (value) => {
+      // 状态为 PENDING 时才可以更新状态，防止 executor 中调用了两次 resovle/reject 方法
+      if(this.status ===  PENDING) {
+        this.onFulfilledCallbacks.forEach(item => item(value));
+        this.status = FULFILLED;
+        this.value = value;
+      }
+    } 
+
+    // 调用此方法就是失败
+    let reject = (reason) => {
+      // 状态为 PENDING 时才可以更新状态，防止 executor 中调用了两次 resovle/reject 方法
+      if(this.status ===  PENDING) {
+        this..onRejectedCallbacks.forEach(item => item(reason));
+        this.status = REJECTED;
+        this.reason = reason;
+      }
+    }
+
+    try {
+      // 立即执行，将 resolve 和 reject 函数传给使用者  
+      executor(resolve,reject)
+    } catch (error) {
+      // 发生异常时执行失败逻辑
+      reject(error)
+    }
+  }
+
+  // 包含一个 then 方法，并接收两个参数 onFulfilled、onRejected
+  then(onFulfilled, onRejected) {
+    if (this.status === FULFILLED) {
+      onFulfilled(this.value)
+    }
+
+    if (this.status === REJECTED) {
+      onRejected(this.reason)
+    }
+
+    if (this.status === PENDING) {
+      this.onFulfilledCallbacks.push(() => { onFulfilled(this.value) })
+      this.onRejectedCallbacks.push(() => { onRejected(this.reason) })
+    }
+
+    return this;
+  }
+}
+```
+
