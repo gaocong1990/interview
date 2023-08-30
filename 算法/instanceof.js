@@ -3,16 +3,14 @@
  * 因此，instanceof 在查找的过程中会遍历左边变量的原型链，直到找到右边变量的 prototype，
  * 如果查找失败，则会返回 false，告诉我们左边变量并非是右边变量的实例。
  *  */
-function new_instance_of(leftVaule, rightVaule) {
-    let rightProto = rightVaule.prototype; // 取右表达式的 prototype 值
-    leftVaule = leftVaule.__proto__; // 取左表达式的__proto__值
-    while (true) {
-        if (leftVaule === null) {
-            return false;
-        }
-        if (leftVaule === rightProto) {
-            return true;
-        }
-        leftVaule = leftVaule.__proto__
-    }
+function myInstanceof(left, right) {
+  // 这里先用typeof来判断基础数据类型，如果是，直接返回false
+  if (typeof left !== 'object' || left === null) return false;
+  // getProtypeOf是Object对象自带的API，能够拿到参数的原型对象
+  let proto = Object.getPrototypeOf(left); // 等同于left.__proto__
+  while (true) {
+    if (proto === null) return false;
+    if (proto === right.prototype) return true; //找到相同原型对象，返回true
+    proto = Object.getPrototypeof(proto);
+  }
 }

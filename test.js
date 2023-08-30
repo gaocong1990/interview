@@ -1,59 +1,24 @@
-const PENDING = 'PENDING';
-const FULFILLED = 'FULLILLED';
-const REJECTED = 'REJECTED';
+const quickSort = (arr) => {
+  const len = arr.length;
+  if (len <= 1) return arr;
+  const flag = Math.floor(len / 2);
+  // 取中间的元素为基准元素， 小于该元素的push到left数组，大于该元素的push到right数组
+  const tmp = arr[flag];
+  const left = [];
+  const right = [];
 
-class Promise {
-  constructor(executor) {
-    // 状态
-    this.status = PENDING;
-    // 成功的value
-    this.value = undefined;
-    // 失败原因
-    this.reason = undefined;
-    // 成功回调队列
-    this.onFulfilledCallbacks = [];
-    // 失败回调队列
-    this.onRejectedCallbacks = [];
-
-    const resolve = (value) => {
-      if (this.status === PENDING) {
-        this.status = FULFILLED;
-        this.value = value;
-        this.onFulfilledCallbacks.forEach((callback) => callback(value));
-      }
-    };
-
-    const reject = (reason) => {
-      if (this.status === PENDING) {
-        this.status = REJECTED;
-        this.reason = reason;
-        this.onRejectedCallbacks.forEach((callback) => callback(value));
-      }
-    };
-
-    try {
-      executor(resolve, reject);
-    } catch (error) {
-      reject(error);
+  for (let i = 0; i < len; i++) {
+    if (i === flag) continue;
+    if (arr[i] < tmp) {
+      left.push(arr[i]);
+    } else {
+      right.push(arr[i]);
     }
   }
 
-  then(onFulfilled, onRejected) {
-    if (this.status === FULFILLED) {
-      onFulfilled(this.value);
-    }
+  return quickSort(left).concat([tmp], quickSort(right));
+};
 
-    if (this.status === REJECTED) {
-      onRejected(this.reason);
-    }
+console.log(quickSort([3,1,2,6,7,23,1233,5455,778]))
 
-    if (this.status === PENDING) {
-      this.onFulfilledCallbacks.push(() => {
-        onFulfilled(this.value);
-      });
-      this.onRejectedCallbacks.push(() => {
-        onRejected(this.reason);
-      });
-    }
-  }
-}
+
