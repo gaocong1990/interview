@@ -24,7 +24,7 @@ HTTP 是超文本传输协议，也就是HyperText Transfer Protocol。`HTTP 是
 ## HTTP缓存
 HTTP 缓存有两种实现方式，分别是**强制缓存**和**协商缓存**。
 `强制缓存`: 缓存没有过期，则直接使用浏览器的本地缓存(200： from disk cache)，实现：
->`Cache-Control`: maxage=xxx //一个相对时间
+>`Cache-Control`: maxage=xxx //一个相对时间 no-cache//可以用协商缓存  no-store// 不使用任何缓存
 >`Expires`: 一个绝对时间
 >*`Cache-Control` 的优先级高于` Expires`*
 
