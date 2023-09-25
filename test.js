@@ -1,27 +1,28 @@
-// for
-async function loop(arr) {
-  for (let i = 0; i < arr.length; i++) {
-    let result = await asyncFunction(arr[i]);
-    console.log(result);
-  }
-}
-loop([1, 2, 3]);
-async function asyncFunction(value) {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(value * 2), 200);
-  });
+
+function objToArray(obj) {
+  return Object.keys(obj).map(key => {
+    const tmp = {key};
+    Object.keys(obj[key]).map(innerKey => {
+      tmp.op = innerKey;
+      tmp.value = obj[key][innerKey];
+    })
+
+    return tmp;
+  })
 }
 
-// // forEach
-// async function loop(arr) {
-//   arr.forEach(async (value) => {
-//     let result = await asyncFunction(value);
-//     console.log(result);
-//   });
-// }
-// loop([1, 2, 3]);
-// async function asyncFunction(value) {
-//   return new Promise((resolve) => {
-//     setTimeout(() => resolve(value * 2), 200);
-//   });
-// }
+console.log(
+  objToArray({
+    key1: {
+      op1: "value1",
+    },
+    key2: {
+      op2: "value2",
+    },
+  })
+);
+// result示例
+// [
+//     {key: 'key1', op: 'op1', value: 'value1'},
+//     {key: 'key2', op: 'op2', value: 'value2'}
+// ]
