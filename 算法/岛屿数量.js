@@ -24,7 +24,7 @@ const islandNums = (grid) => {
   const n = grid[0].length;
 
   const isInArea = (x, y) => {
-    return 0 <= x && x < m && 0 <= y && y <= n;
+    return 0 <= x && x < m && 0 <= y && y < n;
   };
 
   const dfs = (x, y) => {
@@ -66,7 +66,7 @@ const islandNums2 = (grid) => {
   const n = grid[0].length;
 
   const isInArea = (x, y) => {
-    return 0 <= x && x < m && 0 <= y && y <= n;
+    return 0 <= x && x < m && 0 <= y && y < n;
   };
   const bfs = (x, y) => {
     const queue = [[x, y]]; // 队列，先进先出
@@ -106,9 +106,9 @@ const grid2 = [
   ['0', '0', '1', '0', '0'],
   ['0', '0', '0', '1', '1'],
 ]; // 3
-// console.log('--islandNums---');
-// console.log(islandNums(grid1));
-// console.log(islandNums(grid2));
+console.log('--islandNums---');
+console.log(islandNums(grid1));
+console.log(islandNums(grid2));
 console.log('--islandNums2---');
 console.log(islandNums2(grid1));
 console.log(islandNums2(grid2));

@@ -53,8 +53,8 @@ var longestPalindrome = function (s) {
       }
 
       // 取最长的
-      if (dp[i][j] && j - i + 1 > max) {
-        max = j - i + 1;
+      if (dp[i][j] && l > max) {
+        max = l;
         begin = i;
       }
     }
